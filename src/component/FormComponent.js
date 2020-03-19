@@ -63,7 +63,22 @@ function FormComponent() {
   }
 
   const handleBlur = (e) => {
-    console.log('onBlur',e.target.name)
+    //console.log('onBlur',e.target.name);
+    let er = false;
+    if(e.target.name == 'email'){
+      if(e.target.value.length == 0 || !validateEmail(e.target.value)){
+        er = true;
+      }
+    }else{//message
+      if(e.target.value.length == 0){
+        er = true;
+      }
+    }
+
+    setErrors({
+      ...errors,
+      [e.target.name]: er
+    })
   }
 
   const sendButtonStatus = () =>{
@@ -94,9 +109,9 @@ function FormComponent() {
 
             <CssTextField error={errors.email} id="custom-css-standard-input" name="email" label="To:" value={values.email} onChange={handleChange} onBlur={handleBlur}/>
 
-            <CssTextField error={errors.subject} id="custom-css-standard-input" name="subject" label="Subject:" value={values.subject} onChange={handleChange} />
+            <CssTextField error={errors.subject} id="custom-css-standard-input" name="subject" label="Subject:" value={values.subject} onChange={handleChange} onBlur={handleBlur}/>
 
-            <TextField style={{borderBottomColor: 'green'}} valid="sadad" error={errors.message} id="custom-css-standard-input" name="message" label="Message:" value={values.message} onChange={handleChange} />
+            <CssTextField error={errors.message} id="custom-css-standard-input" name="message" label="Message:" value={values.message} onChange={handleChange} onBlur={handleBlur}/>
 
             <div className="loading">
               <CircularProgress disableShrink style={{display: stage != "sending" ? "none" : "block"}} />
